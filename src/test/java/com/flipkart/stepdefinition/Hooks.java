@@ -1,5 +1,11 @@
 package com.flipkart.stepdefinition;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Properties;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -13,11 +19,27 @@ public class Hooks extends Commonactions{
 	
 	Commonactions a = new Commonactions();
 	
+	Properties p = new Properties();
+	
 	@Before
-	public void beforeScenario() {
+	public void beforeScenario() throws Throwable {
+		
+		FileReader file = new FileReader(".//src//test//resources//credentials.properties");
+		
+		p.load(file);
+		
+		  
 		
 		System.out.println("Before each scenario ex: browser launch");
-        a.launch("https://www.flipkart.com");
+        a.launch(p.getProperty("Environment"));
+        
+        
+        p.setProperty("username","rajan");  
+		
+        FileWriter f = new FileWriter(".//src//test//resources//credentials.properties");
+		  
+		p.store(f,"default");
+        //driver.navigate().back();
 	}
 	
 	@After
